@@ -19,7 +19,7 @@ func NewStore(db *sql.DB) *Store {
 func (s *Store) CreateUser(user types.User) error {
 	_, err := s.db.Exec("INSERT INTO users (id, password, nickname) VALUES (:id, :password, :nickname);",
 		sql.Named("id", user.Id),
-		sql.Named("password", user.Password),
+		sql.Named("password", user.HashedPassword),
 		sql.Named("nickname", user.Nickname))
 
 	if err != nil {
@@ -29,7 +29,7 @@ func (s *Store) CreateUser(user types.User) error {
 	return nil
 }
 
-func (s *Store) GetUserById(id int) (*types.User, error) {
+func (s *Store) GetUserById(id string) (*types.User, error) {
 	user := new(types.User)
 
 	row := s.db.QueryRow("SELECT * FROM users WHERE id = :id;",
@@ -37,7 +37,7 @@ func (s *Store) GetUserById(id int) (*types.User, error) {
 
 	err := row.Scan(
 		&user.Id,
-		&user.Password,
+		&user.HashedPassword,
 		&user.Nickname,
 	)
 	if err != nil {
@@ -47,7 +47,7 @@ func (s *Store) GetUserById(id int) (*types.User, error) {
 	return user, nil
 }
 
-func (s *Store) DeleteUserById(id int) error {
+func (s *Store) DeleteUserById(id string) error {
 	_, err := s.db.Exec("DELETE FROM users WHERE id = :id;",
 		sql.Named("id", id))
 

@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
+
+	"github.com/kasariks/simple_messenger_api/services/user"
 )
 
 type APIServer struct {
@@ -21,7 +23,15 @@ func NewServer(addr string, db *sql.DB) *APIServer {
 }
 
 func (s *APIServer) Run() error {
+	s.registerServiceRoutes()
+
 	log.Println("Listening on", s.addr)
 
 	return http.ListenAndServe(s.addr, s.router)
+}
+
+func (s *APIServer) registerServiceRoutes() {
+	userStore := user.NewStore(s.db)
+	userHandler := user.NewHandler(userStore)
+	userHandler.RegisterRoutes(s.router)
 }
