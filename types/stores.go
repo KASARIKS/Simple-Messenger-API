@@ -9,6 +9,6 @@ type UserStore interface {
 type MessageStore interface {
 	CreateMessage(Message) error
 	GetMessageById(id int) (*Message, error)
-	GetMessagesByAuthorId(id int) ([]Message, error)
-	GetMessagesByRecipientId(id int) ([]Message, error)
+	GetMessagesByAuthorId(id string, page int) ([]Message, error)
+	GetMessagesByRecipientId(id string, page int) ([]Message, error)
 }

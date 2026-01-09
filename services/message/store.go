@@ -2,6 +2,7 @@ package message
 
 import (
 	"database/sql"
+	"fmt"
 	"time"
 
 	"github.com/kasariks/simple_messenger_api/types"
@@ -51,9 +52,14 @@ func (s *Store) GetMessageById(id int) (*types.Message, error) {
 
 	return msg, nil
 }
-func (s *Store) GetMessagesByAuthorId(id int) ([]types.Message, error) {
-	rows, err := s.db.Query("SELECT * FROM messages WHERE authorId = :authorId;",
-		sql.Named("authorId", id))
+func (s *Store) GetMessagesByAuthorId(id string, page int) ([]types.Message, error) {
+	if page < 0 {
+		return nil, fmt.Errorf("page smaller than 0")
+	}
+
+	rows, err := s.db.Query("SELECT * FROM messages WHERE authorId = :authorId LIMIT 10 OFFSET 10 * :page;",
+		sql.Named("authorId", id),
+		sql.Named("page", page))
 	if err != nil {
 		return nil, err
 	}
@@ -67,9 +73,14 @@ func (s *Store) GetMessagesByAuthorId(id int) ([]types.Message, error) {
 	return msgs, nil
 }
 
-func (s *Store) GetMessagesByRecipientId(id int) ([]types.Message, error) {
-	rows, err := s.db.Query("SELECT * FROM messages WHERE recipientId = :recipientId;",
-		sql.Named("recipientId", id))
+func (s *Store) GetMessagesByRecipientId(id string, page int) ([]types.Message, error) {
+	if page < 0 {
+		return nil, fmt.Errorf("page smaller than 0")
+	}
+
+	rows, err := s.db.Query("SELECT * FROM messages WHERE recipientId = :recipientId LIMIT 10 OFFSET 10 * :page;",
+		sql.Named("recipientId", id),
+		sql.Named("page", page))
 	if err != nil {
 		return nil, err
 	}

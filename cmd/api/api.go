@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/kasariks/simple_messenger_api/services/message"
 	"github.com/kasariks/simple_messenger_api/services/user"
 )
 
@@ -34,4 +35,8 @@ func (s *APIServer) registerServiceRoutes() {
 	userStore := user.NewStore(s.db)
 	userHandler := user.NewHandler(userStore)
 	userHandler.RegisterRoutes(s.router)
+
+	messageStore := message.NewStore(s.db)
+	messageHandler := message.NewHandler(messageStore, userStore)
+	messageHandler.RegisterRoutes(s.router)
 }

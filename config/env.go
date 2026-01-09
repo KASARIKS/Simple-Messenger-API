@@ -19,7 +19,7 @@ func initConfig() *Env {
 	return &Env{
 		Port:                   getEnv("PORT", "8080"),
 		DBName:                 getEnv("DB_NAME", "db"),
-		JWTExpirationInSeconds: getEnvInt("JWT_EXP", 10),
+		JWTExpirationInSeconds: getEnvInt("JWT_EXP", 60*30),
 		JWTSecret:              getEnv("JWT_SECRET", "necesseraly_set_jwt_secret_in_env"),
 	}
 }

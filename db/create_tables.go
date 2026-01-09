@@ -13,9 +13,9 @@ const messagesTable = "CREATE TABLE IF NOT EXISTS messages (" +
 	"authorId TEXT NOT NULL," +
 	"recipientId TEXT NOT NULL," +
 	"value TEXT NOT NULL," +
-	"createdAt TEXT NOT NULL" +
-	"FOREIGN KEY (authorId) REFERENCES (users)," +
-	"FOREIGN KEY (recipientId) REFERENCES (users)" +
+	"createdAt TEXT NOT NULL," +
+	"FOREIGN KEY (authorId) REFERENCES users(id)," +
+	"FOREIGN KEY (recipientId) REFERENCES users(id)" +
 	");"
 
 func createTables(db *sql.DB) error {
