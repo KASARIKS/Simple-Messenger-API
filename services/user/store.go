@@ -21,7 +21,6 @@ func (s *Store) CreateUser(user types.User) error {
 		sql.Named("id", user.Id),
 		sql.Named("password", user.HashedPassword),
 		sql.Named("nickname", user.Nickname))
-
 	if err != nil {
 		return err
 	}
@@ -50,7 +49,6 @@ func (s *Store) GetUserById(id string) (*types.User, error) {
 func (s *Store) DeleteUserById(id string) error {
 	_, err := s.db.Exec("DELETE FROM users WHERE id = :id;",
 		sql.Named("id", id))
-
 	if err != nil {
 		return err
 	}

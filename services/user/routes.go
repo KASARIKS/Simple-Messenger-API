@@ -27,13 +27,13 @@ func (h *Handler) RegisterRoutes(router *http.ServeMux) {
 }
 
 func (h *Handler) HandleRegister(w http.ResponseWriter, r *http.Request) {
-	var payload types.RegisterPayload
+	var payload types.RegisterUserPayload
 	if err := utils.ParseJSON(r, &payload); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 
-	if err := types.ValidateRegisterPayload(payload); err != nil {
+	if err := types.ValidateRegisterUserPayload(payload); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
@@ -66,13 +66,13 @@ func (h *Handler) HandleRegister(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) HandleLogin(w http.ResponseWriter, r *http.Request) {
-	var payload types.LoginPayload
+	var payload types.LoginUserPayload
 	if err := utils.ParseJSON(r, &payload); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 
-	if err := types.ValidateLoginPayload(payload); err != nil {
+	if err := types.ValidateLoginUserPayload(payload); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
